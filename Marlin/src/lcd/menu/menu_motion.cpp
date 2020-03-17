@@ -257,9 +257,11 @@ void _menu_move_distance(const AxisEnum axis, const screenFunc_t func, const int
       );
         char tmp[20], numstr[10];
         // Determine digits needed right of decimal
-        const uint8_t digs = !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) * 1000 - int((SHORT_MANUAL_Z_MOVE) * 1000)) ? 4 :
-                             !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) *  100 - int((SHORT_MANUAL_Z_MOVE) *  100)) ? 3 : 2;
-        sprintf_P(tmp, GET_TEXT(MSG_MOVE_Z_DIST), dtostrf(SHORT_MANUAL_Z_MOVE, 1, digs, numstr));
+        // const uint8_t digs = !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) * 1000 - int((SHORT_MANUAL_Z_MOVE) * 1000)) ? 4 :
+        //                      !UNEAR_ZERO((SHORT_MANUAL_Z_MOVE) *  100 - int((SHORT_MANUAL_Z_MOVE) *  100)) ? 3 : 2;
+        // TODO: @mathiasvr: force 3 decimals for simplicity (can be changed if necessary)
+        snprintf_P(numstr, 10, PSTR("%.3f"), SHORT_MANUAL_Z_MOVE);
+        sprintf_P(tmp, GET_TEXT(MSG_MOVE_Z_DIST), numstr);
         lcd_put_u8str(tmp);
       MENU_ITEM_ADDON_END();
     }
