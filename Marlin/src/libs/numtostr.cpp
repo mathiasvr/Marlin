@@ -177,9 +177,7 @@ const char* ftostr54sign(const float &f, char plus/*=' '*/) {
 
 // Convert unsigned float to rj string with 12345 format
 const char* ftostr5rj(const float &f) {
-  const long i = ((f < 0 ? -f : f) * 10 + 5) / 10;
-  return ui16tostr5rj(i);
-  // todo
+  return ui16tostr5rj(uint16_t(fabs(f) + 0.5f));
 }
 
 // Convert signed float to string with +1234.5 format
@@ -202,26 +200,12 @@ const char* ftostr51rj(const float &f) {
 
 // Convert signed float to space-padded string with -_23.4_ format
 const char* ftostr52sp(const float &f) {
-  long i = (f * 1000 + (f < 0 ? -5: 5)) / 10;
-  uint8_t dig;
-  conv[0] = MINUSOR(i, ' ');
-  conv[1] = RJDIGIT(i, 10000);
-  conv[2] = RJDIGIT(i, 1000);
-  conv[3] = DIGIMOD(i, 100);
+  snprintf(conv, 8, "%c%6.2f", f < 0 ? '-' : ' ', fabs(f));
+  // strip extraneous decimals
+  for (int i = 6; i > 3; i--) {
+    if (conv[i] != '0' && conv[i] != '.') break;
+    conv[i] = 0;
+  }
 
-  if ((dig = i % 10)) {          // second digit after decimal point?
-    conv[4] = '.';
-    conv[5] = DIGIMOD(i, 10);
-    conv[6] = DIGIT(dig);
-  }
-  else {
-    if ((dig = (i / 10) % 10)) { // first digit after decimal point?
-      conv[4] = '.';
-      conv[5] = DIGIT(dig);
-    }
-    else                          // nothing after decimal point
-      conv[4] = conv[5] = ' ';
-    conv[6] = ' ';
-  }
   return conv;
 }
