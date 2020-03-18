@@ -34,20 +34,20 @@ char conv[8] = { 0 };
 // Convert a full-range unsigned 8bit int to a percentage
 const char* ui8tostr4pctrj(const uint8_t i) {
   const uint8_t n = ui8_to_percent(i);
-  snprintf_P(conv + 3, 5, PSTR("%3d%%"), n);
-  return &conv[3];
+  snprintf_P(conv, 5, PSTR("%3d%%"), n);
+  return conv;
 }
 
 // Convert unsigned 8bit int to string 123 format
 const char* ui8tostr3rj(const uint8_t i) {
-  snprintf_P(conv + 4, 4, PSTR("%3d"), i);
-  return &conv[4];
+  snprintf_P(conv, 4, PSTR("%3d"), i);
+  return conv;
 }
 
 // Convert signed 8bit int to rj string with 123 or -12 format
 const char* i8tostr3rj(const int8_t x) {
-  snprintf_P(conv + 4, 4, PSTR("%3d"), x);
-  return &conv[4];
+  snprintf_P(conv, 4, PSTR("%3d"), x);
+  return conv;
 }
 
 #if HAS_PRINT_PROGRESS_PERMYRIAD
@@ -80,70 +80,70 @@ const char* i8tostr3rj(const int8_t x) {
 
 // Convert unsigned 16bit int to string 12345 format
 const char* ui16tostr5rj(const uint16_t xx) {
-  snprintf_P(conv + 2, 6, PSTR("%5d"), xx);
-  return &conv[2];
+  snprintf_P(conv, 6, PSTR("%5d"), xx);
+  return conv;
 }
 
 // Convert unsigned 16bit int to string 1234 format
 const char* ui16tostr4rj(const uint16_t xx) {
-  snprintf_P(conv + 3, 5, PSTR("%4d"), xx);
-  return &conv[3];
+  snprintf_P(conv, 5, PSTR("%4d"), xx);
+  return conv;
 }
 
 
 // Convert unsigned 16bit int to string 123 format
 const char* ui16tostr3rj(const uint16_t xx) {
-  snprintf_P(conv + 4, 4, PSTR("%3d"), xx);
-  return &conv[4];
+  snprintf_P(conv, 4, PSTR("%3d"), xx);
+  return conv;
 }
 
 // Convert signed 16bit int to rj string with 123 or -12 format
 const char* i16tostr3rj(const int16_t x) {
-  snprintf_P(conv + 4, 4, PSTR("%3d"), x);
-  return &conv[4];
+  snprintf_P(conv, 4, PSTR("%3d"), x);
+  return conv;
 }
 
 // Convert unsigned 16bit int to lj string with 123 format
 const char* i16tostr3left(const int16_t i) {
-  snprintf_P(conv + 4, 4, PSTR("%d"), i);
-  return &conv[4];
+  snprintf_P(conv, 4, PSTR("%d"), i);
+  return conv;
 }
 
 // Convert signed 16bit int to rj string with 1234, _123, -123, _-12, or __-1 format
 const char* i16tostr4signrj(const int16_t i) {
-  snprintf_P(conv + 3, 5, PSTR("%4d"), i);
-  return &conv[3];
+  snprintf_P(conv, 5, PSTR("%4d"), i);
+  return conv;
 }
 // Convert unsigned float to string with 1.23 format
 const char* ftostr12ns(const float &f) {
-  snprintf_P(conv + 3, 5, PSTR("%.2f"), fabs(f));
-  return &conv[3];
+  snprintf_P(conv, 5, PSTR("%.2f"), fabs(f));
+  return conv;
 }
 
 // Convert signed float to fixed-length string with 12.34 / _2.34 / -2.34 or -23.45 / 123.45 format
 const char* ftostr42_52(const float &f) {
   if (f <= -10 || f >= 100) return ftostr52(f); // -23.45 / 123.45
-  snprintf_P(conv + 2, 6, PSTR("%5.2f"), (double)f);
-  return &conv[2];
+  snprintf_P(conv, 6, PSTR("%5.2f"), (double)f);
+  return conv;
 }
 
 // Convert signed float to fixed-length string with 023.45 / -23.45 format
 const char* ftostr52(const float &f) {
-  snprintf_P(conv + 1, 7, PSTR("%06.2f"), (double)f);
-  return &conv[1];
+  snprintf_P(conv, 7, PSTR("%06.2f"), (double)f);
+  return conv;
 }
 
 // Convert signed float to fixed-length string with 12.345 / _2.345 / -2.345 or -23.45 / 123.45 format
 const char* ftostr53_63(const float &f) {
   if (f <= -10 || f >= 100) return ftostr63(f); // -23.456 / 123.456
-  snprintf_P(conv + 1, 7, PSTR("%6.3f"), (double)f);
-  return &conv[1];
+  snprintf_P(conv, 7, PSTR("%6.3f"), (double)f);
+  return conv;
 }
 
 // Convert signed float to fixed-length string with 023.456 / -23.456 format
 const char* ftostr63(const float &f) {
   snprintf_P(conv, 8, PSTR("%07.3f"), (double)f);
-  return &conv[0];
+  return conv;
 }
 
 #if ENABLED(LCD_DECIMAL_SMALL_XY)
@@ -151,28 +151,28 @@ const char* ftostr63(const float &f) {
   // Convert float to rj string with 1234, _123, -123, _-12, 12.3, _1.2, or -1.2 format
   const char* ftostr4sign(const float &f) {
     if (f <= -10 || f >= 100) return i16tostr4signrj((int)f);
-    snprintf_P(conv + 3, 5, PSTR( "%f"), f);
-    return &conv[3];
+    snprintf_P(conv, 5, PSTR("%f"), f);
+    return conv;
   }
 
 #endif
 
 // Convert float to fixed-length string with +123.4 / -123.4 format
 const char* ftostr41sign(const float &f) {
-  snprintf_P(conv + 1, 7, PSTR("%+06.1f"), (double)f);
-  return &conv[1];
+  snprintf_P(conv, 7, PSTR("%+06.1f"), (double)f);
+  return conv;
 }
 
 // Convert signed float to string (6 digit) with -1.234 / _0.000 / +1.234 format
 const char* ftostr43sign(const float &f, char plus/*=' '*/) {
-  snprintf_P(conv + 1, 7, PSTR("%c%.3f"), f < 0 ? '-' : plus, fabs(f));
-  return &conv[1];
+  snprintf_P(conv, 7, PSTR("%c%.3f"), f < 0 ? '-' : plus, fabs(f));
+  return conv;
 }
 
 // Convert signed float to string (5 digit) with -1.2345 / _0.0000 / +1.2345 format
 const char* ftostr54sign(const float &f, char plus/*=' '*/) {
   snprintf_P(conv, 8, PSTR("%c%.4f"), f < 0 ? '-' : plus, fabs(f));
-  return &conv[0];
+  return conv;
 }
 
 // Convert unsigned float to rj string with 12345 format
