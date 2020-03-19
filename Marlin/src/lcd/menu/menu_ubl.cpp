@@ -414,10 +414,9 @@ void _lcd_ubl_map_homing() {
  * UBL LCD "radar" map point editing
  */
 void _lcd_ubl_map_lcd_edit_cmd() {
-  char ubl_lcd_gcode[50], str[10], str2[10];
-  dtostrf(ubl.mesh_index_to_xpos(x_plot), 0, 2, str);
-  dtostrf(ubl.mesh_index_to_ypos(y_plot), 0, 2, str2);
-  snprintf_P(ubl_lcd_gcode, sizeof(ubl_lcd_gcode), PSTR("G29 P4 X%s Y%s R%i"), str, str2, int(n_edit_pts));
+  char ubl_lcd_gcode[50];
+  snprintf_P(ubl_lcd_gcode, sizeof(ubl_lcd_gcode), PSTR("G29 P4 X%.2f Y%.2f R%i"),
+    ubl.mesh_index_to_xpos(x_plot), ubl.mesh_index_to_ypos(y_plot), int(n_edit_pts));
   lcd_enqueue_one_now(ubl_lcd_gcode);
 }
 
