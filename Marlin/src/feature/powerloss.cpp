@@ -327,7 +327,7 @@ void PrintJobRecovery::resume() {
   // Pretend that all axes are homed
   axis_homed = axis_known_position = xyz_bits;
 
-  char cmd[MAX_CMD_SIZE+16], str_1[16], str_2[16];
+  char cmd[MAX_CMD_SIZE+16];
 
   // Select the previously active tool (with no_move)
   #if EXTRUDERS > 1
@@ -339,8 +339,7 @@ void PrintJobRecovery::resume() {
   #if DISABLED(NO_VOLUMETRICS)
     #if EXTRUDERS > 1
       for (int8_t e = 0; e < EXTRUDERS; e++) {
-        dtostrf(info.filament_size[e], 1, 3, str_1);
-        sprintf_P(cmd, PSTR("M200 T%i D%s"), e, str_1);
+        sprintf_P(cmd, PSTR("M200 T%i D%.3f"), e, info.filament_size[e]);
         gcode.process_subcommands_now(cmd);
       }
       if (!info.volumetric_enabled) {
@@ -349,8 +348,7 @@ void PrintJobRecovery::resume() {
       }
     #else
       if (info.volumetric_enabled) {
-        dtostrf(info.filament_size, 1, 3, str_1);
-        sprintf_P(cmd, PSTR("M200 D%s"), str_1);
+        sprintf_P(cmd, PSTR("M200 D%.3f"), info.filament_size);
         gcode.process_subcommands_now(cmd);
       }
     #endif
@@ -404,7 +402,7 @@ void PrintJobRecovery::resume() {
     // Restore leveling state before 'G92 Z' to ensure
     // the Z stepper count corresponds to the native Z.
     if (info.fade || info.leveling) {
-      sprintf_P(cmd, PSTR("M420 S%i Z%s"), int(info.leveling), dtostrf(info.fade, 1, 1, str_1));
+      sprintf_P(cmd, PSTR("M420 S%i Z%.1f"), int(info.leveling), info.fade);
       gcode.process_subcommands_now(cmd);
     }
   #endif
@@ -426,19 +424,15 @@ void PrintJobRecovery::resume() {
   #endif
 
   // Move back to the saved XY
-  sprintf_P(cmd, PSTR("G1 X%s Y%s F3000"),
-    dtostrf(info.current_position.x, 1, 3, str_1),
-    dtostrf(info.current_position.y, 1, 3, str_2)
-  );
+  sprintf_P(cmd, PSTR("G1 X%.3f Y%.3f F3000"), info.current_position.x, info.current_position.y);
   gcode.process_subcommands_now(cmd);
 
   // Move back to the saved Z
-  dtostrf(info.current_position.z, 1, 3, str_1);
   #if Z_HOME_DIR > 0
-    sprintf_P(cmd, PSTR("G1 Z%s F200"), str_1);
+    sprintf_P(cmd, PSTR("G1 Z%.3f F200"), info.current_position.z);
   #else
     gcode.process_subcommands_now_P(PSTR("G1 Z0 F200"));
-    sprintf_P(cmd, PSTR("G92.9 Z%s"), str_1);
+    sprintf_P(cmd, PSTR("G92.9 Z%.3f"), info.current_position.z);
   #endif
   gcode.process_subcommands_now(cmd);
 
@@ -454,7 +448,7 @@ void PrintJobRecovery::resume() {
   gcode.process_subcommands_now(cmd);
 
   // Restore E position with G92.9
-  sprintf_P(cmd, PSTR("G92.9 E%s"), dtostrf(info.current_position.e, 1, 3, str_1));
+  sprintf_P(cmd, PSTR("G92.9 E%.3f"), info.current_position.e);
   gcode.process_subcommands_now(cmd);
 
   // Relative axis modes
