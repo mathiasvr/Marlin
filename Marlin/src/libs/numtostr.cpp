@@ -34,13 +34,13 @@ char conv[8] = { 0 };
 // Convert a full-range unsigned 8bit int to a percentage
 const char* ui8tostr4pctrj(const uint8_t i) {
   const uint8_t n = ui8_to_percent(i);
-  snprintf_P(conv, 5, PSTR("%3d%%"), n);
+  snprintf_P(conv, 5, PSTR("%3u%%"), n);
   return conv;
 }
 
 // Convert unsigned 8bit int to string 123 format
 const char* ui8tostr3rj(const uint8_t i) {
-  snprintf_P(conv, 4, PSTR("%3d"), i);
+  snprintf_P(conv, 4, PSTR("%3u"), i);
   return conv;
 }
 
@@ -80,20 +80,20 @@ const char* i8tostr3rj(const int8_t x) {
 
 // Convert unsigned 16bit int to string 12345 format
 const char* ui16tostr5rj(const uint16_t xx) {
-  snprintf_P(conv, 6, PSTR("%5d"), xx);
+  snprintf_P(conv, 6, PSTR("%5u"), xx);
   return conv;
 }
 
 // Convert unsigned 16bit int to string 1234 format
 const char* ui16tostr4rj(const uint16_t xx) {
-  snprintf_P(conv, 5, PSTR("%4d"), xx);
+  snprintf_P(conv, 5, PSTR("%4u"), xx);
   return conv;
 }
 
 
 // Convert unsigned 16bit int to string 123 format
 const char* ui16tostr3rj(const uint16_t xx) {
-  snprintf_P(conv, 4, PSTR("%3d"), xx);
+  snprintf_P(conv, 4, PSTR("%3u"), xx);
   return conv;
 }
 
