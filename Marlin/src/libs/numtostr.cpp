@@ -122,8 +122,7 @@ const char* ftostr12ns(const float &f) {
 
 // Convert signed float to fixed-length string with 12.34 / -2.34 or 023.45 / -23.45 format
 const char* ftostr42_52(const float &f) {
-  if (f <= -10 || f >= 100) return ftostr52(f); // need more digits
-  snprintf_P(conv, 6, PSTR("%5.2f"), (double)f);
+  snprintf(conv, 7, "%5.2f", (double)f);
   return conv;
 }
 
@@ -135,8 +134,7 @@ const char* ftostr52(const float &f) {
 
 // Convert signed float to fixed-length string with 12.345 / -2.345 or 023.456 / -23.456 format
 const char* ftostr43_53(const float &f) {
-  if (f <= -10 || f >= 100) return ftostr53(f); // need more digits
-  snprintf_P(conv, 7, PSTR("%6.3f"), (double)f);
+  snprintf_P(conv, 8, PSTR("%6.3f"), (double)f);
   return conv;
 }
 
