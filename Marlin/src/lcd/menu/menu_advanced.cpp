@@ -509,11 +509,15 @@ void menu_advanced_settings() {
       ACTION_ITEM(MSG_SET_HOME_OFFSETS, []{ queue.inject_P(PSTR("M428")); ui.return_to_status(); });
     #endif
 
-    // M203 / M205 - Feedrate items
-    SUBMENU(MSG_VELOCITY, menu_advanced_velocity);
+    #if DISABLED(NO_VELOCITY_MENU)
+      // M203 / M205 - Feedrate items
+      SUBMENU(MSG_VELOCITY, menu_advanced_velocity);
+    #endif
 
-    // M201 - Acceleration items
-    SUBMENU(MSG_ACCELERATION, menu_advanced_acceleration);
+    #if DISABLED(NO_ACCELERATION_MENU)
+      // M201 - Acceleration items
+      SUBMENU(MSG_ACCELERATION, menu_advanced_acceleration);
+    #endif
 
     // M205 - Max Jerk
     SUBMENU(MSG_JERK, menu_advanced_jerk);
