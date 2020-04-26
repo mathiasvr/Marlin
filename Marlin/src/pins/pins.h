@@ -1608,3 +1608,8 @@
 
 #undef HAS_FREE_AUX2_PINS
 #undef DIAG_REMAPPED
+
+#if E0_AUTO_FAN_PIN == BEEPER_PIN
+  // Beeper pin will be used for automatic extrude fan
+  #undef BEEPER_PIN
+#endif
