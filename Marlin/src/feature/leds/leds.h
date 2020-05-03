@@ -187,6 +187,8 @@ public:
     static inline void set_blue()     { set_color(LEDColorBlue()); }
     static inline void set_indigo()   { set_color(LEDColorIndigo()); }
     static inline void set_violet()   { set_color(LEDColorViolet()); }
+  #else
+    static inline void set_default()  { set_color(LEDColor(255, 255, 255)); }
   #endif
 
   #if ENABLED(PRINTER_EVENT_LEDS)

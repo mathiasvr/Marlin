@@ -37,11 +37,11 @@ private:
   #endif
 
   static inline void set_done() {
-    #if ENABLED(LED_COLOR_PRESETS)
+    // #if ENABLED(LED_COLOR_PRESETS)
       leds.set_default();
-    #else
-      leds.set_off();
-    #endif
+    // #else
+      // leds.set_off();
+    // #endif
   }
 
 public:
