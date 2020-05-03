@@ -122,7 +122,7 @@ const char* ftostr12ns(const float &f) {
 
 // Convert signed float to fixed-length string with 12.34 / _2.34 / -2.34 or -23.45 / 123.45 format
 const char* ftostr42_52(const float &f) {
-  snprintf(conv, 7, PSTR("%5.2f"), (double)f);
+  snprintf_P(conv, 7, PSTR("%5.2f"), (double)f);
   return conv;
 }
 
@@ -192,14 +192,7 @@ const char* ftostr52sign(const float &f) {
 
 // Convert signed float to string with +12.345 format
 const char* ftostr53sign(const float &f) {
-  long i = (f * 10000 + (f < 0 ? -5: 5)) / 10;
-  conv[0] = MINUSOR(i, '+');
-  conv[1] = DIGIMOD(i, 10000);
-  conv[2] = DIGIMOD(i, 1000);
-  conv[3] = '.';
-  conv[4] = DIGIMOD(i, 100);
-  conv[5] = DIGIMOD(i, 10);
-  conv[6] = DIGIMOD(i, 1);
+  snprintf_P(conv, 8, PSTR("%+07.3f"), (double)f);
   return conv;
 }
 
@@ -211,7 +204,7 @@ const char* ftostr51rj(const float &f) {
 
 // Convert signed float to space-padded string with -_23.4_ format
 const char* ftostr52sp(const float &f) {
-  snprintf(conv, 8, "%c%6.2f", f < 0 ? '-' : ' ', fabs(f));
+  snprintf_P(conv, 8, PSTR("%c%6.2f"), f < 0 ? '-' : ' ', fabs(f));
   // strip extraneous decimals
   for (int i = 6; i > 3; i--) {
     if (conv[i] != '0' && conv[i] != '.') break;
