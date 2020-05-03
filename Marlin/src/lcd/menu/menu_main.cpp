@@ -135,7 +135,7 @@ void menu_main() {
           ACTION_ITEM(MSG_NO_MEDIA, nullptr);
         #else
           GCODES_ITEM(MSG_ATTACH_MEDIA, M21_STR);
-          ACTION_ITEM(MSG_MEDIA_RELEASED, nullptr);
+          // ACTION_ITEM(MSG_MEDIA_RELEASED, nullptr);
         #endif
       }
 
@@ -214,6 +214,7 @@ void menu_main() {
 
     if (card_detected) {
       if (!card_open) {
+        SUBMENU(MSG_MEDIA_MENU, menu_media);
         MENU_ITEM(gcode,
           #if PIN_EXISTS(SD_DETECT)
             MSG_CHANGE_MEDIA, M21_STR
@@ -221,7 +222,6 @@ void menu_main() {
             MSG_RELEASE_MEDIA, PSTR("M22")
           #endif
         );
-        SUBMENU(MSG_MEDIA_MENU, menu_media);
       }
     }
     else {
@@ -229,7 +229,7 @@ void menu_main() {
         ACTION_ITEM(MSG_NO_MEDIA, nullptr);
       #else
         GCODES_ITEM(MSG_ATTACH_MEDIA, M21_STR);
-        ACTION_ITEM(MSG_MEDIA_RELEASED, nullptr);
+        // ACTION_ITEM(MSG_MEDIA_RELEASED, nullptr);
       #endif
     }
 
