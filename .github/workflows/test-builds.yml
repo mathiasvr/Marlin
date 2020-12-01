@@ -17,6 +17,7 @@ on:
   push:
     branches:
     - bugfix-2.0.x
+    - testing
     paths-ignore:
     - config/**
     - data/**
@@ -26,7 +27,6 @@ on:
 jobs:
   test_builds:
     name: Run All Tests
-    if: github.repository == 'MarlinFirmware/Marlin'
 
     runs-on: ubuntu-latest
 
